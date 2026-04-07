@@ -1,5 +1,5 @@
 export async function signup(data: unknown) {
-  const res = await fetch("http://localhost:3333/users/signup", {
+  const res = await fetch("http://localhost:3000/users/signup", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
