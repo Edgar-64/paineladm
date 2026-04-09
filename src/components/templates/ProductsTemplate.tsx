@@ -1,7 +1,11 @@
 import { Header } from "../organisms/Header";
 import { Sidebar } from "../organisms/Sidebar";
 
-export const HomeTemplate = ({ children }: { children: React.ReactNode }) => (
+export const ProductsTemplate = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => (
   <div className="flex h-screen">
     <Sidebar />
     <div className="flex-1 flex flex-col">
