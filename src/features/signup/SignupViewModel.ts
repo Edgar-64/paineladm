@@ -1,32 +1,49 @@
-"use client";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation'; // Alterado de expo-router para next/navigation
+import { signUp } from '@/src/services/signup/post'; // Ajuste o path conforme sua estrutura no Next.js
+import { SignUpForm } from './SignupModel';
 
-import { useState } from "react";
-import { SignupModel } from "./SignupModel";
-import { signup } from "@/src/services/auth/signup/post";
-
-export const useSignupViewModel = () => {
-  const [form, setForm] = useState<SignupModel>({
-    name: "",
-    email: "",
-    password: "",
+export const useSignUp = () => {
+  const router = useRouter();
+  
+  const [form, setForm] = useState<SignUpForm>({ 
+    name: '',
+    email: '', 
+    password: '' 
   });
+  
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (field: keyof SignUpForm, value: string) => {
+    setForm(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = async () => {
-    const res = await signup(form);
+  const handleSubmit = async (e?: React.FormEvent) => {
+    // No Next.js, geralmente chamamos isso em um formulário HTML
+    if (e) e.preventDefault();
 
-    console.log(res);
+    setLoading(true);
+    setError(null);
 
-    if (res?.id || res?.email) {
-      alert("Usuário criado com sucesso!");
-      window.location.href = "/signin";
-    } else {
-      alert("Erro ao cadastrar");
+    try {
+      await signUp(form);
+      // No Next.js, usamos push ou replace do next/navigation
+      router.replace('/login');
+    } catch (e: any) {
+      setError(e.message || 'Ocorreu um erro ao criar a conta');
+    } finally {
+      setLoading(false);
     }
+
   };
 
-  return { form, handleChange, handleSubmit };
+  return { 
+    form, 
+    loading, 
+    error, 
+    handleChange, 
+    handleSubmit 
+
+  };
 };

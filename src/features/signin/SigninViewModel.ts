@@ -1,31 +1,46 @@
-"use client";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { signIn } from '@/src/services/signin/post'; 
+import { SignInForm } from './SigninModel';
 
-import { useState } from "react";
-import { SigninModel } from "./SigninModel";
-import { signin } from "@/src/services/auth/signin/post";
-
-export const useSigninViewModel = () => {
-  const [form, setForm] = useState<SigninModel>({
-    email: "",
-    password: "",
+export function useSignIn() {
+  const router = useRouter();
+  
+  const [form, setForm] = useState<SignInForm>({ 
+    email: '', 
+    password: '' 
   });
+  
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (field: keyof SignInForm, value: string) => {
+    setForm(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = async () => {
-    const res = await signin(form);
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
 
-    console.log(res);
+    setLoading(true);
+    setError(null);
 
-    if (res.user) {
-      alert("Login realizado!");
-      window.location.href = "/dashboard";
-    } else {
-      alert("Erro no login");
+    try {
+      await signIn(form);
+      // AJUSTE: Redirecionar para a Home/Dashboard após logar
+      router.replace('/admin/users'); 
+    } catch (err: any) {
+      // AJUSTE: Captura de mensagem mais robusta
+      setError(err.response?.data?.message || err.message || 'Erro ao realizar login');
+    } finally {
+      setLoading(false);
     }
   };
 
-  return { form, handleChange, handleSubmit };
-};
+  return { 
+    form, 
+    loading, 
+    error, 
+    handleChange, 
+    handleSubmit 
+  };
+}

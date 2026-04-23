@@ -8,32 +8,29 @@ interface TopbarProps {
   userName?: string;
 }
 
-export default function Topbar({ userName = "Admin Azul" }: TopbarProps) {
+export default function Topbar({ userName = "Nome do Administrador" }: TopbarProps) {
   const [showNotifs, setShowNotifs] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
 
-  // Simulação de alertas do app mobile
   const notifications = [
-    { id: 1, text: "Novo usuário cadastrado no App", time: "5min" },
-    { id: 2, text: "Nova transação pendente", time: "15min" }
+    { id: 1, text: "Novo usuário cadastrado no App", time: "15min" },
+    { id: 2, text: "Nova notificação", time: "45min" }
   ];
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-slate-100 px-8 py-4 flex justify-between items-center">
       
-      {/* BARRA DE PESQUISA (Verde) */}
       <div className="flex-1 max-w-md relative group">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-green-600 transition-colors" size={18} />
         <input 
           type="text" 
           placeholder="Pesquisar dados, transações..." 
-          className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-slate-900 font-medium"
+          className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-slate-900 font-medium"
         />
       </div>
 
       <div className="flex items-center gap-6">
         
-        {/* NOTIFICAÇÕES (Amarelo) */}
         <div className="relative">
           <button 
             onClick={() => { setShowNotifs(!showNotifs); setShowProfile(false); }}
@@ -60,14 +57,13 @@ export default function Topbar({ userName = "Admin Azul" }: TopbarProps) {
 
         <div className="h-8 w-[1px] bg-slate-200 mx-2"></div>
 
-        {/* PERFIL E MENU (Vermelho) */}
         <div className="relative">
           <button 
             onClick={() => { setShowProfile(!showProfile); setShowNotifs(false); }}
             className="flex items-center gap-3 p-1 hover:bg-slate-50 rounded-xl transition-all group"
           >
-            <div className="w-9 h-9 bg-slate-900 rounded-full flex items-center justify-center text-white text-xs font-black group-hover:bg-blue-600 transition-colors">
-              AD
+            <div className="w-9 h-9 bg-slate-900 rounded-full flex items-center justify-center text-white text-xs font-green group-hover:bg-green-600 transition-colors">
+              ADM
             </div>
             <div className="text-left hidden sm:block">
               <p className="text-sm font-bold text-slate-900 leading-none">{userName}</p>
@@ -85,25 +81,7 @@ export default function Topbar({ userName = "Admin Azul" }: TopbarProps) {
               
               <div className="p-2">
                 <Link 
-                  href="/admin/profile" 
-                  onClick={() => setShowProfile(false)}
-                  className="w-full flex items-center gap-2 p-2.5 text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all"
-                >
-                  <User size={16} /> Meu Perfil
-                </Link>
-
-                <Link 
-                  href="/admin/settings" 
-                  onClick={() => setShowProfile(false)}
-                  className="w-full flex items-center gap-2 p-2.5 text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all"
-                >
-                  <Settings size={16} /> Ajustes do App
-                </Link>
-
-                <div className="h-[1px] bg-slate-100 my-2" />
-                
-                <Link 
-                  href="/login" 
+                  href="/" 
                   className="w-full flex items-center gap-2 p-2.5 text-sm font-bold text-red-500 hover:bg-red-50 rounded-lg transition-all"
                 >
                   <LogOut size={16} /> Sair do Painel

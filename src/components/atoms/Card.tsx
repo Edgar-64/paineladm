@@ -15,4 +15,3 @@ export default function Card({ title, value, icon }: Props) {
     </div>
   );
 }
-//franfran ama rafaela
