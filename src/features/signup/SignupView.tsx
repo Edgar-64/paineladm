@@ -16,7 +16,7 @@ export default function SignUpView() {
     // Se o cadastro deu certo, avisa o usuário e redireciona
     if (success) {
       alert("Cadastro realizado com sucesso!");
-      router.push("/login"); // Altere para a rota exata da sua página de login
+      router.push("/auth"); // Altere para a rota exata da sua página de login
     }
   };
 
